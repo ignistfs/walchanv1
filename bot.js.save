@@ -1,0 +1,196 @@
+require('dotenv').config()
+var Discord = require('discord.js');
+const fetch = require('node-fetch');
+var client = new Discord.Client();
+
+
+
+
+client.on("ready", () => {
+  client.user.setActivity(';;help', { type: 'PLAYING' })
+});
+
+
+
+client.on('message', message => {
+
+    if (message.content === 'ping') {
+
+       message.reply('pong');
+
+       }
+
+});
+
+
+
+
+client.on('message', message => {
+
+    var prefix = ';;';
+    var messagecont = message.content;
+    switch (messagecont) {
+    case prefix + "stats":
+    case prefix + "stats global":
+    fetch('https://winalittle.fun/walhelper/botinfohandler.php?action=global_stats', {
+        method: 'get',
+        headers: { 
+            'Content-Type': 'application/json',
+             'Auth' : 'aGVyYzo2NGwyRWNld3FieDdMQmJLc1RCUWFYb2JCMjQkVCRhSA==',
+             },
+    })
+    .then(res => res.json())
+    .then(json => {
+             var totaltoday = json.totaltoday;
+             var totaluserstoday = json.totaltodayusers;
+             var averagetoday = json.averagetoday;
+             var datestamp = json.date;
+             var imagereturn = json.graph;
+   message.channel.send({embed: {
+   color: 3447003,
+   description: "Total paid  **" + totaltoday + "**  \n Total users : **" + totaluserstoday + " ** \n Average : **" + averagetoday + "** \n \n Last 4 days stats : ",
+   title: "Global stats",
+   image:{
+       url:encodeURI(imagereturn),
+   },
+   footer: {
+    icon_url: client.user.avatarURL,
+    text :"Data fetched on " + datestamp
+   }
+ }});
+    
+        
+        
+    });
+    
+
+    
+
+
+
+      break;
+      case prefix + "stats t":
+      case prefix + "stats today":
+        fetch('https://winalittle.fun/walhelper/botinfohandler.php?action=today_stats', {
+        method: 'get',
+        headers: { 
+            'Content-Type': 'application/json',
+             'Auth' : 'aGVyYzo2NGwyRWNld3FieDdMQmJLc1RCUWFYb2JCMjQkVCRhSA==',
+             },
+    })
+    .then(res => res.json())
+    .then(json => {
+             var totaltoday = json.totaltoday;
+             var totaluserstoday = json.totaltodayusers;
+             var averagetoday = json.averagetoday;
+
+             var datestamp = json.date;
+
+          message.channel.send({embed: {
+   color: 3447003,
+   description: "Total paid  **" + totaltoday + "**  \n \nTotal users : **" + totaluserstoday + " ** \n \nAverage : **" + averagetoday + "**",
+   title: "Today stats",
+   footer: {
+    icon_url: client.user.avatarURL,
+    text :"Data fetched on " + datestamp
+   }
+
+ }});
+});
+break;
+        case prefix + "stats y":
+        case prefix + "stats yesterday":
+        fetch('https://winalittle.fun/walhelper/botinfohandler.php?action=yesterday_stats', {
+        method: 'get',
+        headers: { 
+            'Content-Type': 'application/json',
+             'Auth' : 'aGVyYzo2NGwyRWNld3FieDdMQmJLc1RCUWFYb2JCMjQkVCRhSA==',
+             },
+    })
+    .then(res => res.json())
+    .then(json => {
+             var totaltoday = json.totaltoday;
+             var totaluserstoday = json.totaltodayusers;
+             var averagetoday = json.averagetoday;
+
+             var datestamp = json.date;
+
+          message.channel.send({embed: {
+   color: 3447003,
+   description: "Total paid  **" + totaltoday + "**  \n \nTotal users : **" + totaluserstoday + " ** \n \nAverage : **" + averagetoday + "**",
+   title: "Yesterday stats",
+   footer: {
+    icon_url: client.user.avatarURL,
+    text :"Data fetched on " + datestamp
+   }
+
+ }});
+});
+
+
+      break;
+   
+   
+      case prefix + "balance faucet":
+        fetch('https://winalittle.fun/walhelper/botinfohandler.php?action=faucetbalance', {
+        method: 'get',
+        headers: { 
+            'Content-Type': 'application/json',
+             'Auth' : 'aGVyYzo2NGwyRWNld3FieDdMQmJLc1RCUWFYb2JCMjQkVCRhSA==',
+             },
+    })
+    .then(res => res.json())
+    .then(json => {
+             var balance = json.balance_bitcoin;
+             var datestamp = json.date;
+
+          message.channel.send({embed: {
+   color: 3447003,
+   description: "" + balance + "DOGE",
+   title: "Faucet balance",
+   footer: {
+    icon_url: client.user.avatarURL,
+    text :"Data fetched on " + datestamp
+   }
+
+ }});
+
+});
+
+      break;
+      case prefix + "cmds":
+      case prefix + "commands":
+      case prefix + "help":
+      message.channel.send({embed: {
+color: 3447003,
+description: "**"+prefix+"stats** - display global stats \n**"+prefix+"stats today** - dispaly today stats \n**"+prefix+"balance faucet** - display faucet balance \n**"+prefix+"help** - display help \n",
+title: "Commands",
+footer: {
+icon_url: client.user.avatarURL,
+}
+
+}});
+
+      break;
+      case prefix + "refill":
+      message.channel.send({embed: {
+color: 3447003,
+description: 'Deposit to DGKhAB7x5vkW2Pkxxz5i2on5dxhcpwBHM7',
+title: "Refill",
+footer: {
+icon_url: client.user.avatarURL,
+}
+
+}});
+
+      break;
+    default 
+    }
+
+});
+
+
+
+// THIS  MUST  BE  THIS  WAY
+
+client.login('NzcwMjY3OTcxOTAwNjY5OTgz.X5bF8w.7lK3iEG_TZSGOXbNwKXXFxA07E4');//BOT_TOKEN is the Client Secret

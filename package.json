@@ -1,0 +1,17 @@
+{
+  "name": "walhelper",
+  "version": "1.0.0",
+  "description": "my lil wal helper",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "node-dogecoin": "^0.3.9",
+    "node-fetch": "^2.6.1"
+  }
+}
